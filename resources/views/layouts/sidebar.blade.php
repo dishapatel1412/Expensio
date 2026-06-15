@@ -16,7 +16,7 @@
             </li>
 
             <li>
-                <a href="#"
+                <a href="{{ route('categories.index') }}"
                     class="flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 transition">
                     Categories
                 </a>

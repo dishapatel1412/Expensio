@@ -40,7 +40,7 @@
             <div class="m-3">
                 <label 
                     for="remember_me" 
-                    class="inline-flex items-center"
+                    class="inline-flex items-center mb-2"
                 >
                     <input 
                         id="remember_me" 
@@ -67,7 +67,7 @@
                 class="block text-center underline text-sm text-gray-600 hover:text-gray-900 m-3" 
                 href="{{ route('register') }}"
             >
-                <span>Create a new account </span>
+                <span>Create a new account</span>
             </a>
         </form>
     </div>
