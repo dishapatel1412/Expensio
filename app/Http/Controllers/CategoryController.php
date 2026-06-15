@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -21,7 +22,11 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => ['required', 'string', 'max:255']
+            'category_name' => [
+                'required', 
+                'string', 
+                'unique:categories,category_name', 'max:255'
+            ]
         ]);
 
         Category::create([
@@ -39,7 +44,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'category_name' => ['required', 'string', 'max:255']
+            'category_name' => [
+                'required', 
+                'string', 
+                'max:255',
+                Rule::unique('categories', 'category_name')->ignore($category->id),
+            ]
         ]);
 
         $category->update([
