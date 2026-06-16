@@ -16,7 +16,7 @@ class CategoryController extends Controller
         if ($request->filled('search')) {
             $query->where('category_name', 'like', '%' . $request->search . '%');
         }
-        $categories = $query->get();
+        $categories = $query->paginate(5)->withQueryString();
         // $categories = auth()->user()->categories();
         return view('categories.index', compact('categories'));
     }
