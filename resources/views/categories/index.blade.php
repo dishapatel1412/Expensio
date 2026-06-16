@@ -13,22 +13,47 @@
                 </ul>
             </div>
         @endif
-        <div class="flex justify-between">
-            <h4 class="text-2xl font-semibold m-3 p-3">
+        <form action="{{ route('categories.index') }}" method="GET" class="mb-6">
+            <div class="flex items-center gap-3">
+                <input 
+                    type="text"
+                    name="search"
+                    class="flex-1 rounded-lg border border-gray-300 px-4 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+                    placeholder="Search Category"
+                    value="{{ request('search') }}"
+                >
+                <button
+                    type="submit"
+                    class="rounded-lg bg-indigo-600 px-5 py-2 text-white font-medium hover:bg-indigo-700 transition"
+                >
+                    Search
+                </button>
+                <a 
+                    href="{{ route('categories.index') }}"
+                    class="rounded-lg bg-gray-500 px-5 py-2 text-white font-medium hover:bg-gray-600 transition"
+                >
+                    Reset
+                </a>
+            </div>
+        </form>
+
+        </div>
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold text-gray-800">
                 View Categories
-            </h4>
+            </h2>
             <a 
                 href="{{ route('categories.create') }}"
-                class="bg-indigo-600 hover:bg-indigo-700 text-white m-3 p-3 rounded"
+                class="rounded-lg bg-indigo-600 px-5 py-2 text-white font-medium hover:bg-indigo-700 transition shadow-sm"
             >
                 Add Category
             </a>
         </div>
-        <table class="w-full">
-            <thead>
+        <table class="w-full overflow-hidden rounded-lg border border-gray-200">
+            <thead class="bg-gray-50">
                 <tr class="border">
-                    <th class="px-6 py-3 text-left bg-gray-50">Category Name</th>
-                    <th class="px-6 py-3 text-left bg-gray-50">Actions</th>
+                    <th class="px-6 py-3 text-left font-semibold">Category Name</th>
+                    <th class="px-6 py-3 text-left font-semibold">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,7 +66,7 @@
                             <div class="flex gap-2">
                                 <a 
                                     href="{{ route('categories.edit', $category) }}"
-                                    class="bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded"
+                                    class="rounded-md bg-indigo-600 px-4 py-2 text-sm text-white hover:bg-indigo-700"
                                 >
                                     Edit
                                 </a>
@@ -53,7 +78,7 @@
                                     @method('DELETE')
                                     <button
                                         type="submit" 
-                                        class="bg-red-600 hover:bg-red-700 text-white p-3 rounded"   
+                                        class="rounded-md bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
                                     >
                                         Delete
                                     </button>

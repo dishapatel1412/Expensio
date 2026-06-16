@@ -9,9 +9,14 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::where('user_id', Auth::id())->get();
+        $query = Category::where('user_id', Auth::id());
+
+        if ($request->filled('search')) {
+            $query->where('category_name', 'like', '%' . $request->search . '%');
+        }
+        $categories = $query->get();
         // $categories = auth()->user()->categories();
         return view('categories.index', compact('categories'));
     }
@@ -27,7 +32,8 @@ class CategoryController extends Controller
             'category_name' => [
                 'required', 
                 'string', 
-                'unique:categories,category_name', 'max:255'
+                Rule::unique('categories')
+                    ->where(fn ($query) => $query->where('user_id', Auth::id()))
             ]
         ]);
 
@@ -51,7 +57,9 @@ class CategoryController extends Controller
                 'required', 
                 'string', 
                 'max:255',
-                Rule::unique('categories', 'category_name')->ignore($category->id),
+                Rule::unique('categories', 'category_name')
+                    ->where(fn ($query) => $query->where('user_id', Auth::id()))
+                    ->ignore($category->id),
             ]
         ]);
 
