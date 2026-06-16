@@ -13,6 +13,11 @@
                 </ul>
             </div>
         @endif
+        @if (session('success'))
+            <div class="mb-4 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
+                {{ session('success') }}
+            </div>
+        @endif
         <form action="{{ route('categories.index') }}" method="GET" class="mb-6">
             <div class="flex items-center gap-3">
                 <input 

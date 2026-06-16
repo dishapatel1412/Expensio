@@ -13,6 +13,11 @@
                 </ul>
             </div>
         @endif
+        @if (session('success'))
+            <div class="mb-4 rounded-lg border border-green-200 bg-green-50 p-4 text-green-700">
+                {{ session('success') }}
+            </div>
+        @endif
         <h4 class="text-2xl font-semibold mt-10 p-3">
             Edit Category
         </h4>
