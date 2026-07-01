@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Category;
+use App\Models\Expense;
 
 #[Fillable(['name', 'username', 'email', 'mobile_num', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -34,5 +35,10 @@ class User extends Authenticatable
     public function categories()
     {
         return $this->hasMany(Category::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
     }
 }

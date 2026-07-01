@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ExpenseStoreRequest;
+use App\Http\Requests\ExpenseUpdateRequest;
+use App\Models\Category;
+use App\Models\Expense;
+
+class ExpenseController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Expense::where('user_id', Auth::id());
+
+        if ($request->filled('search')) {
+            $query->where('expense_name', 'like', '%' . $request->search . '%');
+        }
+        $expenses = $query->paginate(5)->withQueryString();
+        return view('expenses.index', compact('expenses'));
+    }
+
+    public function create()
+    {
+        $categories = Category::where('user_id', Auth::id())->get();
+
+        return view('expenses.create', compact('categories'));
+    }
+
+    public function store(ExpenseStoreRequest $request)
+    {
+        $validated = $request->validated();
+
+        Expense::create([
+            'user_id' => Auth::id(),
+            'category_id' => $request->category_id,
+            'expense_name' => $request->expense_name,
+            'amount' => $request->amount,
+            'expense_date' => $request->expense_date,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('expenses.index')->with('success', 'Expense created successfully!');
+    }
+
+    public function show(Expense $expense)
+    {        
+        return redirect()->route('expenses.show', compact('expense'));
+    }
+
+    public function edit(Expense $expense)
+    {
+        $categories = Category::where('user_id', Auth::id())->get();
+        return view('expenses.edit', compact('expense', 'categories'));
+    }
+
+    public function update(Expense $expense, ExpenseUpdateRequest $request)
+    {
+        $validated = $request->validated();
+
+        $expense->update([
+            'user_id' => Auth::id(),
+            'category_id' => $request->category_id,
+            'expense_name' => $request->expense_name,
+            'amount' => $request->amount,
+            'expense_date' => $request->expense_date,
+            'description' => $request->description
+        ]);
+        
+        return redirect()->route('expenses.index')->with('success', 'Expense Updated Sucessfully!');
+    }
+
+    public function destroy(Expense $expense)
+    {
+        $expense->delete();
+
+        return redirect()->route('expenses.index')->with('success', 'Expense Deleted Successfully!');
+    }
+}

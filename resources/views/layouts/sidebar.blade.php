@@ -9,7 +9,7 @@
                 </a>
             </li>
             <li>
-                <a href="#"
+                <a href="{{ route('expenses.index') }}"
                     class="flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 transition">
                     Expenses
                 </a>

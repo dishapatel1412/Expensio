@@ -6,11 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Category;
 
-class Category extends Model
+class Expense extends Model
 {
     protected $fillable = [
-        'category_name',
-        'user_id'
+        'user_id',
+        'category_id',
+        'expense_name',
+        'amount',
+        'expense_date',
+        'description'
     ];
 
     public function user()
@@ -18,8 +22,8 @@ class Category extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function expenses()
+    public function category()
     {
-        return $this->hasMany(Expense::class);
+        return $this->belongsTo(Category::class);
     }
 }
