@@ -47,11 +47,15 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
+        $this->authorize('update', $category);
+
         return view('categories.edit', compact('category'));
     }
 
     public function update(Request $request, Category $category)
     {
+        $this->authorize('update', $category);
+
         $request->validate([
             'category_name' => [
                 'required', 
@@ -72,6 +76,8 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
+
         $category->delete();
 
         return redirect()->route('categories.index')->with('success', 'Category deleted successfully!');

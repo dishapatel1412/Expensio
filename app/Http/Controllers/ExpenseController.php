@@ -52,12 +52,17 @@ class ExpenseController extends Controller
 
     public function edit(Expense $expense)
     {
+        $this->authorize('update', $expense);
+
         $categories = Category::where('user_id', Auth::id())->get();
+        
         return view('expenses.edit', compact('expense', 'categories'));
     }
 
     public function update(Expense $expense, ExpenseUpdateRequest $request)
     {
+        $this->authorize('update', $expense);
+
         $validated = $request->validated();
 
         $expense->update([
@@ -74,6 +79,8 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
+        $this->authorize('delete', $expense);
+
         $expense->delete();
 
         return redirect()->route('expenses.index')->with('success', 'Expense Deleted Successfully!');
