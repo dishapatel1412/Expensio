@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ExpenseStoreRequest;
 use App\Http\Requests\ExpenseUpdateRequest;
@@ -13,13 +14,28 @@ class ExpenseController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Expense::where('user_id', Auth::id());
+        $query = Expense::with('category')->where('user_id', Auth::id());
 
         if ($request->filled('search')) {
             $query->where('expense_name', 'like', '%' . $request->search . '%');
         }
-        $expenses = $query->paginate(5)->withQueryString();
-        return view('expenses.index', compact('expenses'));
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('from_date') && $request->filled('to_date')) {
+            $query->whereBetween('expense_date', [
+                $request->from_date,
+                $request->to_date
+            ]);
+        }
+
+        $expenses = $query->latest()->paginate(5)->withQueryString();
+
+        $categories = Category::where('user_id', Auth::id())->orderBy('category_name')->get();
+        
+        return view('expenses.index', compact('expenses', 'categories'));
     }
 
     public function create()
@@ -55,7 +71,7 @@ class ExpenseController extends Controller
         $this->authorize('update', $expense);
 
         $categories = Category::where('user_id', Auth::id())->get();
-        
+
         return view('expenses.edit', compact('expense', 'categories'));
     }
 
