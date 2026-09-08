@@ -120,12 +120,13 @@
                 Add Expense
             </a>
         </div>
-        <table class="w-full overflow-hidden rounded-lg border border-gray-200">
+        <table class="w-full overflow-hidden rounded-lg border border-gray-300">
             <thead class="bg-gray-50">
                 <tr class="border">
                     <th class="px-6 py-3 text-left font-semibold">Expense Name</th>
                     <th class="px-6 py-3 text-left font-semibold">Amount</th>
                     <th class="px-6 py-3 text-left font-semibold">Category</th>
+                    <th class="px-6 py-3 text-left font-semibold">Date</th>
                     <th class="px-6 py-3 text-left font-semibold">Action</th>
                 </tr>
             </thead>
@@ -145,6 +146,9 @@
                         </td>
                         <td class="px-6 py-3">
                             {{ $expense->category->category_name }}
+                        </td>
+                        <td class="px-6 py-3">
+                            {{ $expense->expense_date }}
                         </td>
                         <td class="px-6 py-3">
                             <div class="flex gap-2">

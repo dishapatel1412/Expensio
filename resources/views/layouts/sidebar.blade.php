@@ -25,7 +25,7 @@
         <div class="my-6 border-t border-slate-800"></div>
         <ul class="space-y-2">
             <li>
-                <a href="#"
+                <a href="{{ route('budget.index') }}"
                     class="flex items-center px-4 py-3 rounded-lg hover:bg-slate-800 transition">
                     Budgets
                 </a>
