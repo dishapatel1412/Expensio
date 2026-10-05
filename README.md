@@ -1,58 +1,341 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Expensio
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+##  Overview
 
-## About Laravel
+Expensio is a personal expense and budget management web application built with Laravel and MySQL.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The application allows authenticated users to record and manage their expenses, organize expenses into categories, set monthly budgets, and monitor their spending through a centralized dashboard.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The project focuses on implementing secure user-specific data management, authorization, filtering, pagination, and database-driven business logic using Laravel.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+##  Key Features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- User registration and authentication
+- User-specific expense management
+- Create, update, view, and delete expenses
+- Expense categorization
+- Create and manage expense categories
+- Search and filter expenses
+- Filter expenses by:
+  - Category
+  - Date range
+  - Month
+  - Year
+- Paginated expense listings
+- Monthly budget management
+- Monthly spending tracking
+- Remaining budget calculation
+- Dashboard with expense summaries
+- Category-wise expense analysis
+- User-specific data access
+- Authorization using Laravel Policies
+- Database-level constraints for business rules
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+##  Expense Management
 
-## Agentic Development
+Users can manage their personal expenses through a dedicated expense management module.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+Each expense can be associated with a category and contains relevant information such as the expense name, amount, and date.
 
-```bash
-composer require laravel/boost --dev
+### Expense functionality
 
-php artisan boost:install
-```
+- Add an expense
+- View expense details
+- Edit an expense
+- Delete an expense
+- Assign an expense to a category
+- View expenses in a paginated list
+- Search expenses
+- Filter expenses by category and date
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+All expense data is scoped to the authenticated user.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##  Category Management
 
-## Code of Conduct
+Expensio allows users to organize their expenses using custom categories.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Category functionality
 
-## Security Vulnerabilities
+- Create categories
+- View categories
+- Edit categories
+- Delete categories
+- Associate expenses with categories
+- Prevent duplicate category names for the same user
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Categories are user-specific, ensuring that one user cannot access or manage another user's categories.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+##  Expense Filtering & Pagination
+
+The expense listing supports multiple filters to help users find specific transactions efficiently.
+
+Users can filter expenses by:
+
+- Expense name/search term
+- Category
+- Date range
+- Month
+- Year
+
+Pagination is implemented for expense listings, while maintaining the selected query parameters when navigating between pages.
+
+---
+
+##  Budget Management
+
+Expensio provides monthly budget management to help users monitor their spending against a defined budget.
+
+### Budget functionality
+
+- Create a monthly budget
+- Prevent duplicate budgets for the same user and month
+- View the current month's budget
+- Calculate total spending for the month
+- Calculate remaining budget
+- Edit the current month's budget
+- Delete the current month's budget
+
+A database-level unique constraint is used to ensure that a user cannot create multiple budgets for the same month and year.
+
+---
+
+## 📊 Dashboard
+
+The dashboard provides an overview of the user's financial activity.
+
+It includes information such as:
+
+- Total expenses
+- Current month's spending
+- Number of expenses
+- Current monthly budget
+- Remaining budget
+- Recent expenses
+- Category-wise spending
+
+The dashboard uses related expense and category data to present a summarized view of the user's spending.
+
+---
+
+##  Authentication & Authorization
+
+Expensio uses Laravel's authentication and authorization features to protect user data.
+
+Each user's expenses, categories, and budgets are associated with their account.
+
+Laravel Policies are used to ensure that users can only perform authorized actions on their own resources.
+
+For example:
+
+User A
+ ├── Expenses
+ ├── Categories
+ └── Budget
+
+User B
+ ├── Expenses
+ ├── Categories
+ └── Budget
+
+User A cannot access or modify User B's resources.
+
+This provides an additional authorization layer beyond simply checking whether a user is authenticated.
+
+---
+
+##  Database Design
+
+Expensio uses **MySQL** as its relational database.
+
+The application contains relationships between entities such as:
+
+- Users
+- Categories
+- Expenses
+- Budgets
+
+### Database relationships
+
+User
+ │
+ ├────────── Categories
+ │                │
+ │                └── Expenses
+ │
+ ├────────── Expenses
+ │
+ └────────── Budget
+
+### Entity Relationship Diagram
+
+---
+
+##  Laravel Concepts Used
+
+The project demonstrates several Laravel concepts, including:
+
+- MVC architecture
+- Routing
+- Controllers
+- Blade templates
+- Eloquent ORM
+- Eloquent relationships
+- Migrations
+- Form validation
+- Form Requests
+- Authentication
+- Authorization
+- Laravel Policies
+- Middleware
+- Route model binding
+- CRUD operations
+- Query Builder / Eloquent queries
+- Pagination
+- Query string preservation
+- Database constraints
+- Environment configuration
+
+---
+
+##  Screenshots
+
+### Dashboard
+
+### Expense List
+
+### Add Expense
+
+### Expense Filters
+
+### Category Management
+
+### Budget Management
+
+---
+
+##  Installation
+
+### Prerequisites
+
+Make sure the following are installed:
+
+- PHP
+- Composer
+- MySQL
+- Node.js & npm
+- Laravel-compatible PHP extensions
+- XAMPP / Laragon or another local PHP development environment
+
+### 1. Clone the repository
+
+git clone https://github.com/dishapatel1412/Expensio.git
+cd Expensio
+
+### 2. Install PHP dependencies
+
+composer install
+
+### 3. Install frontend dependencies
+
+npm install
+
+### 4. Create the environment file
+
+cp .env.example .env
+
+### 5. Generate the application key
+
+php artisan key:generate
+
+### 6. Configure the database
+
+Create a MySQL database and update the following values in `.env`:
+
+DB_DATABASE=expensio
+DB_USERNAME=root
+DB_PASSWORD=
+
+### 7. Run migrations
+
+php artisan migrate
+
+If the project contains seeders:
+
+php artisan migrate --seed
+
+### 8. Build frontend assets
+
+For development:
+
+npm run dev
+
+### 9. Start the Laravel development server
+
+php artisan serve
+
+The application will be available at:
+
+http://127.0.0.1:8000
+
+---
+
+##  Future Improvements
+
+Potential improvements for future versions include:
+
+- Expense analytics and visualizations
+- Recurring expenses
+- Recurring budgets
+- Export expenses to CSV/PDF
+- Email notifications
+- Advanced financial reports
+- Expense import from external sources
+- REST API
+- Mobile application
+- AI-powered expense categorization
+- Spending prediction and financial insights
+
+---
+
+##  Tech Stack
+
+### Backend
+
+- PHP
+- Laravel
+
+### Frontend
+
+- Blade
+- HTML
+- CSS
+- JavaScript
+- Tailwind CSS
+
+### Database
+
+- MySQL
+
+### Development Tools
+
+- Composer
+- npm
+- Git
+- GitHub
+- Laragon
+
+---
+
+##  Author
+
+**Disha Patel**
+
+GitHub: [dishapatel1412](https://github.com/dishapatel1412)
